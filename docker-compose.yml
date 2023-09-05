@@ -1,0 +1,54 @@
+services:
+  remotedomotic_webapp:
+    container_name: remotedomotic_webapp
+    image: remotedomotic_webapp
+
+    devices:
+      - /dev/snd
+
+    build:
+      dockerfile: docker_files/remotedomotic_webapp.Dockerfile
+
+    environment:
+      - DEBUG=0
+
+    volumes:
+      - type: volume
+        source: remotedomotic_webapp_static_disk
+        target: /app/static
+
+    command: >
+      bash -c "
+      python manage.py collectstatic --noinput --clear &&
+      python manage.py makemigrations websecurity &&
+      python manage.py migrate &&
+      daphne -b 0.0.0.0 -p 9000 RemoteDomotic.asgi:application
+      "
+
+  remotedomotic_webserver:
+    restart: unless-stopped
+    container_name: remotedomotic_webserver
+    image: remotedomotic_webserver
+
+    build:
+      dockerfile: docker_files/remotedomotic_webserver.Dockerfile
+
+    volumes:
+      - type: volume
+        source: remotedomotic_webapp_static_disk
+        target: /static
+        read_only: true
+
+    ports:
+      - 8000:8010
+
+    depends_on:
+      - remotedomotic_webapp
+
+networks:
+  default:
+    name: remotedomotic_network
+
+volumes:
+  remotedomotic_webapp_static_disk:
+    name: remotedomotic_webapp_static_disk

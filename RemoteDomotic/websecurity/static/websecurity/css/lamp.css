@@ -1,0 +1,109 @@
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/*body {
+	display: grid;
+	place-content: center;
+	min-height: 100vh;
+	background: hsl(226, 28%, 16%);
+}*/
+
+.switch {
+	--thumb: hsl(290 0% 50%);
+	--bg-1: hsl(254, 27%, 28%);
+	--bg-2: hsl(225, 18%, 24%);
+	display: flex;
+	align-items: center;
+	background: var(--bg-1);
+	border-radius: 1000px;
+	position: relative;
+	width: 60px;
+	height: 30px;
+	cursor: pointer;
+	float: right;
+}
+
+input[type=checkbox] {
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	z-index: -1;
+	position: absolute;
+	opacity: 0;
+}
+
+.circle {
+	--bs-1: 180 50% 50%;
+	--bs-2: 180 50% 60%;
+	--bs-3: 180 50% 70%;
+	--bs: none;
+
+	width: 20px;
+	height: 20px;
+	background: var(--thumb);
+	border-radius: 1000px;
+	box-shadow: var(--bs);
+	transform-origin: 0 50%;
+	transform: translateX(4px);
+	transition: .2s ease-out;
+	z-index: 2;
+}
+
+input:checked+.circle {
+	--thumb: hsl(290 0% 100%);
+	--bs:
+		0 0 40px 10px hsl(var(--bs-1) / 5),
+		0 0 45px 5px hsl(var(--bs-2) / .3),
+		0 0 50px 1px hsl(var(--bs-3) / .1);
+
+	transform: translateX(calc(40px - 4px));
+}
+
+.rope {
+	--tt: cubic-bezier(.13, -0.46, .29, 1.95);
+	position: absolute;
+	left: 20%;
+	bottom: -10px;
+	z-index: -1;
+	width: 3px;
+	height: 34px;
+	background: var(--bg-2);
+	transition: .3s var(--tt);
+	transform: translateY(8px);
+}
+
+.rope::before {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	width: 10px;
+	height: 12px;
+	border-radius: 8px 8px 4px 4px;
+	background: hsl(248, 55%, 39%);
+}
+
+input:checked~.rope {
+	--tt: cubic-bezier(.13, -0.46, 0, -0.04);
+	transform: translateY(2px);
+}
+
+input:checked~.rope::before {
+	background: linear-gradient(to left bottom,
+			hsl(248, 94%, 72%),
+			hsl(248, 96%, 66%));
+}
+
+.abs-twitter {
+	position: fixed;
+	right: calc(20px + .6vw);
+	bottom: calc(23px + .6vw);
+	filter: saturate(0) brightness(1);
+	opacity: .7;
+}

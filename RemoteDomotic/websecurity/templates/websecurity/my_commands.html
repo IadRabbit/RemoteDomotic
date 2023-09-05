@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+	<title>WebSecurity | Records</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/vendors/fontawesome-5.15.3/css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/bootstrap-msg.css' %}">
+	<link rel="stylesheet" type="text/css"
+		href="{% static 'websecurity/vendors/bootstrap-5.0.1/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/style.css' %}">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="{% static 'img/favicon.ico' %}" alt="" width="30" height="24"
+					class="d-inline-block align-text-top">
+				WebSecurity
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/websecurity/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/websecurity/records">Records</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/websecurity/my_audios">My Audios</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/websecurity/">My Audios</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							Rooms
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							{% for room in rooms %}
+							<li><a class="dropdown-item" href="/websecurity/room/{{ room.room }}">{{ room.room }}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+					{% if is_root %}
+					<li class="nav-item">
+						<a class="nav-link" href="/rootAcsPan" target="_blank">ROOT Management</a>
+					</li>
+					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href="/websecurity/logout">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<h1 class="center remote">Commands Area</h1>
+	<script type="text/javascript" src="{% static 'websecurity/js/jquery-3.6.0.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/vendors/bootstrap-5.0.1/js/bootstrap.bundle.min.js' %}">
+	</script>
+	<script type="text/javascript" src="{% static 'websecurity/js/bootstrap-msg.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/getCookie.js' %}"></script>
+</body>
+
+</html>

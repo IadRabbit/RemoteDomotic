@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+	<title>WebSecurity | Index</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/vendors/fontawesome-5.15.3/css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css"
+		href="{% static 'websecurity/vendors/bootstrap-5.0.1/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/bootstrap-msg.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/console.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/lamp.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/style.css' %}">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="{% static 'img/favicon.ico' %}" alt="" width="30" height="24"
+					class="d-inline-block align-text-top">
+				WebSecurity
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/websecurity/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/websecurity/records/">Records</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/websecurity/my_audios/">My Audios</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+							aria-expanded="false">
+							Rooms
+						</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							{% for room in rooms %}
+							<li><a class="dropdown-item" href="/websecurity/room/{{ room.room }}">{{ room.room }}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+					{% if is_root %}
+					<li class="nav-item">
+						<a class="nav-link" href="/rootAcsPan/" target="_blank">ROOT Management</a>
+					</li>
+					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link" href="/websecurity/logout/">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="remote">
+		<div class="row g-3">
+			<div class="col">
+				<h1 class="center">Video <span class="badge bg-success">Stream</span></h1>
+				<div id="carouselWebCams" class="carousel slide hidden" data-bs-ride="carousel">
+					<div class="carousel-indicators">
+						{% for webcam in webcams %}
+						<button type="button" data-bs-target="#carouselWebCams"
+							data-bs-slide-to="{{ forloop.counter0 }}" class="active" aria-current="true"
+							aria-label="{{ webcam.device }}"></button>
+						{% endfor %}
+					</div>
+					<div class="carousel-inner">
+						{% for webcam in webcams %}
+						{% if forloop.counter0 == 0 %}
+						<div class="carousel-item active">
+						{% else %}
+						<div class="carousel-item">
+						{% endif %}
+							<audio src="/websecurity/audio_feed/{{ webcam.device }}/" autoplay></audio>
+							<img src="/websecurity/video_feed/{{ webcam.device }}/" class="d-block w-100">
+							<div class="carousel-caption d-none d-md-block">
+								<h5>{{ webcam.id_room.room }}</h5>
+								<p>{{ webcam.device }}</p>
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+					<button class="carousel-control-prev" type="button" data-bs-target="#carouselWebCams"
+						data-bs-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Previous</span>
+					</button>
+					<button class="carousel-control-next" type="button" data-bs-target="#carouselWebCams"
+						data-bs-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="visually-hidden">Next</span>
+					</button>
+				</div>
+				<div class="d-flex justify-content-center spinner">
+					<div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</div>
+				<h2 class="center hidden" id="lamp_title">Lamps</h2>
+				<div class="container overflow-auto hidden" id="lamps">
+					{% for lamp in lamps %}
+					<div class="row remote">
+						<div class="col device center">
+							{{ lamp.device }}
+						</div>
+						<div class="col device center">
+							{{ lamp.id_room.room }}
+						</div>
+						<div class="col">
+							<label class="switch">
+								{% if lamp.is_on %}
+									<input type="checkbox" class="switchh" id_device="{{ lamp.id }}" checked>
+								{% else %}
+									<input type="checkbox" class="switchh" id_device="{{ lamp.id }}">
+								{% endif %}
+								<div class="circle"></div>
+								<div class="rope"></div>
+							</label>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="col">
+				<h1 class="center">Audio <span class="badge bg-warning text-dark">Commands</span></h1>
+				<ul class="list-group commands">
+					{% for audio in audios %}
+					<li class="list-group-item">
+						<div class="row">
+							<div class="col center">
+								<button type="button" class="btn btn-info audio"
+									id_audio="{{ audio.id }}">PLAY</button>
+							</div>
+							<div class="col-5">
+								<textarea class="form-control" id="audio_description"
+									rows="3">{{ audio.description }}</textarea>
+							</div>
+							<div class="col center">
+								<audio src="/media/{{ audio.audio }}/" controls></audio>
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+				<h1 class="center">Console <span class="badge bg-info text-dark">Commands</span></h1>
+				<div class="terminalCont">
+					<div id="terminalReslutsCont">
+					</div>
+					<form>
+						<input id="terminalTextInput" type="text" placeholder="Try typing help..." autocomplete="off">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="{% static 'websecurity/js/jquery-3.6.0.min.js' %}"></script>
+	<script type="text/javascript"
+		src="{% static 'websecurity/vendors/bootstrap-5.0.1/js/bootstrap.bundle.min.js' %}">
+	</script>
+	<script type="text/javascript" src="{% static 'websecurity/js/bootstrap-msg.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/getCookie.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/playaudio.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/setTimeout.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/console.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/lamp.js' %}"></script>
+	<script>
+		setTimeout(function () {
+			$("#lamps").toggleClass("hidden");
+			$("#lamp_title").toggleClass("hidden");
+		}, 2000);
+	</script>
+</body>
+
+</html>

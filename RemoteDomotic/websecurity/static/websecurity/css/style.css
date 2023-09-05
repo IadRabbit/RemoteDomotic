@@ -1,0 +1,58 @@
+a.close {
+	float: right;
+	text-decoration: none;
+	color: black;
+}
+
+a.close:hover {
+	color: snow;
+}
+
+body {
+	margin-right: 10%;
+	margin-left: 10%;
+	background: hsl(226, 28%, 16%);
+}
+
+.navbar {
+	margin-top: 10px;
+}
+
+.remote {
+	margin-top: 20px;
+}
+
+.hidden {
+	visibility: collapse;
+}
+
+.center {
+	text-align: center;
+	color: whitesmoke;
+}
+
+.audio {
+	margin-top: 25%;
+}
+
+.half {
+	width: 50%;
+}
+
+.commands {
+	overflow: auto;
+	height: 420px;
+}
+
+.spinner {
+	color: whitesmoke;
+}
+
+.device {
+	font-size: 20px;
+	color: whitesmoke;
+}
+
+#lamps {
+	max-height: 300px;
+}

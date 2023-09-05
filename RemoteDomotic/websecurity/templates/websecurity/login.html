@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+	<title>WebSecurity | Login</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/vendors/fontawesome-5.15.3/css/all.min.css' %}">
+	<link rel="stylesheet" type="text/css"
+		href="{% static 'websecurity/vendors/bootstrap-5.0.1/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/bootstrap-msg.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'websecurity/css/login.css' %}">
+</head>
+
+<body>
+	<div class="card">
+		<div class="eye">
+			<div class="shut">
+				<span></span>
+			</div>
+			<div class="ball" id="ball">
+			</div>
+		</div>
+		<div class="title">Welcome in WebSecurity</div>
+		<div class="subTitle">Don't spy too much!</div>
+		<form class="form" id="login">
+			{% csrf_token %}
+			{% if request.GET.next %}
+			<input id="redirect" type="hidden" name="next" value="{{ request.GET.next }}"></input>
+			{% endif %}
+			<input type="text" placeholder="username" id="username"><br><br>
+			<input type="password" placeholder="password" id="password"><br><br>
+			<button class="submit" type="submit">SPY</button>
+		</form>
+	</div>
+	<script type="text/javascript" src="{% static 'websecurity/js/jquery-3.6.0.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/vendors/bootstrap-5.0.1/js/bootstrap.bundle.min.js' %}">
+	</script>
+	<script type="text/javascript" src="{% static 'websecurity/js/bootstrap-msg.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/getCookie.js' %}"></script>
+	<script type="text/javascript" src="{% static 'websecurity/js/login.js' %}"></script>
+</body>
+
+</html>
