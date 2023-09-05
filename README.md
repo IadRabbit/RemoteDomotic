@@ -36,4 +36,4 @@ then
 python3 manage.py shell < first_to_run.py && python3 manage.py createsuperuser
 ```
 
-I hope you find it cool
+Go at http://localhost:8000/. I hope you find it cool
