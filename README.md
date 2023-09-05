@@ -24,4 +24,16 @@ Then
 cd RemoteDomotic && docker compose up
 ```
 
+If is the first time that you UP the compose, we need to create an user & some permissions
+
+```bash
+docker compose exec -it remotedomotic_webapp /bin/bash
+```
+
+then
+
+```bash
+python3 manage.py shell < first_to_run.py && python3 manage.py createsuperuser
+```
+
 I hope you find it cool
